@@ -1,0 +1,120 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color: black;
+  min-width: 320px;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #ff6b08;
+}
+
+.content {
+  background-color: rgba(255, 255, 255, 0.25); 
+  max-width: 600px;
+  padding: 0.25rem;
+}
+
+.header_sect {
+  background-color: rgba(255, 255, 255, 0.25); 
+  text-align: center;
+  width: 90%;
+  padding: 0.5rem;
+  margin: 1rem auto;
+}
+
+.header_sect h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0.5rem;
+}
+
+.header_sect p {
+  font-size: 1rem;
+}
+
+.user_input {
+  background-color: rgba(255, 255, 255, 0.25); 
+  width: 90%;
+  padding: 0.5rem;
+  margin: 1rem auto;
+}
+
+.user_input ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+  justify-content: space-evenly;
+  gap: 1rem;
+}
+
+.user_input li {
+  width: 40%;
+}
+
+.user_input label{
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.input_box {
+  background-color: rgba(255, 255, 255, 0.5);
+  border: solid #ff6b08 1px; 
+  width: 100%;
+  padding: 0.5rem;
+  color: #636363;
+  font-size: 1.25rem;
+  cursor: text;
+}
+
+#dropdown {
+  width: 110%;
+  cursor: pointer;
+}
+
+.user_input button {
+  background-color: rgba(255, 255, 255, 0.75);
+  font-size: 1.25rem;
+  font-weight: 700;
+  padding: 2.5% 5%;
+  cursor: pointer;
+  transition: background-color 0.25s;
+  border: solid #ff6b08 1px; 
+}
+
+button:hover {
+  background-color: white;
+}
+button:focus,
+button:focus-visible {
+  border: solid #ff6b08 2px; 
+}
+
+.results{
+  background-color: rgba(255, 255, 255, 0.25); 
+  width: 90%;  
+  padding: 0.5rem;
+  margin: 1rem auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.results img {
+  width: 50%;
+}
