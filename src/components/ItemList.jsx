@@ -10,22 +10,39 @@ import {
   Typography
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { findCoords } from '../calcs';
 
-export default function ItemList({curList, setCurList, handleAddItem}) {
+export default function ItemList({curList, setCurList, handleAddItem, roomWidth, roomHeight, scale}) {
   const [name, setName] = useState('');
   const [verticalSize, setVerticalSize] = useState('');
   const [horizontalSize, setHorizontalSize] = useState('');
 
   const handleAdd = () => {
+    // if (name && verticalSize && horizontalSize) {
+    //   const newItem = {
+    //     id: Date.now(),
+    //     name,
+    //     verticalSize: parseInt(verticalSize),
+    //     horizontalSize: parseInt(horizontalSize),
+    //     verticalPos: null,
+    //     horizontalPos: null,
+    //   };
+    const foundCoords = findCoords(parseInt(verticalSize), parseInt(horizontalSize), roomWidth, roomHeight, curList);
+    console.log(foundCoords);
     if (name && verticalSize && horizontalSize) {
       const newItem = {
         id: Date.now(),
         name,
-        // verticalSize,
-        // horizontalSize
         verticalSize: parseInt(verticalSize),
         horizontalSize: parseInt(horizontalSize),
+        verticalPos: foundCoords.vert,
+        horizontalPos: foundCoords.hor,
       };
+
+      console.log(newItem);
+      // console.log(curList);
+      // console.log(`newItem: ${newItem}`);
+      // console.log(`list: ${curList}`);
       
       handleAddItem(newItem); // Use handleAddItem to place the item in the room
 

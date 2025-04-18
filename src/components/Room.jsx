@@ -4,8 +4,10 @@ export default function Room ({roomDimensions, scale, curItemList, nextPosition}
     return (
         <Box
           sx={{
-            width: roomDimensions.width * 30 * scale,  // Multiplied for scaling
-            height: roomDimensions.length * 30 * scale, // Multiplied for scaling
+            // width: roomDimensions.width * 30 * scale,  // Multiplied for scaling
+            // height: roomDimensions.length * 30 * scale, // Multiplied for scaling
+            width: roomDimensions.width * scale,  // Multiplied for scaling
+            height: roomDimensions.length * scale, // Multiplied for scaling
             border: '2px solid #000',
             marginTop: 4,
             position: 'relative',
@@ -31,10 +33,14 @@ export default function Room ({roomDimensions, scale, curItemList, nextPosition}
             key={item.id}
             sx={{
                 position: 'absolute',
-                top: `${nextPosition.x}px`,
-                left: `${nextPosition.y}px`,
-                width: item.horizontalSize * 30 * scale, // Scaled width
-                height: item.verticalSize * 30 * scale,   // Scaled height
+                top: `${item.verticalPos * scale}px`,
+                left: `${item.horizontalPos * scale}px`,
+                // top: `${nextPosition.x}px`,
+                // left: `${nextPosition.y}px`,
+                // width: item.horizontalSize * 30 * scale, // Scaled width
+                // height: item.verticalSize * 30 * scale,   // Scaled height
+                width: item.horizontalSize * scale, // Scaled width
+                height: item.verticalSize * scale,   // Scaled height
                 border: '2px solid #000',
                 backgroundColor: '#ddd',
                 display: 'flex',
