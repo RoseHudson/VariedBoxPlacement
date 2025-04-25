@@ -1,161 +1,14 @@
-// export function checkObs(curY, curX, vert, hor, grid_vert, grid_hor) {
-//     for (let y = curY; y < curY + vert; y++) {
-//       for (let x = curX; x < curX + hor; x++) {
-//         if (grid[y][x] === 'o') {
-//           return false;
-//         }
-//       }
-//     }
-//     return true;
-//   }
-
-
-// export function placeInPos(yCoord, xCoord, vert, hor, grid) {
-//     for (let y = yCoord; y < yCoord + vert; y++) {
-//       for (let x = xCoord; x < xCoord + hor; x++) {
-//         grid[y][x] = 'o';
-//       }
-//     }
-//   }
-
-
-// export function putInGrid(vert, hor, grid_vert, grid_hor) {
-//     if (hor > grid_hor || vert > grid_vert) {
-//       return "Error, obj too large to fit in grid";
-//     } else {
-//       let curX = 0;
-//       let curY = 0;
-  
-//       while (curY + vert <= grid_vert) {
-//         if (curX + hor > grid_hor) {
-//           curX = 0;
-//           curY += 1;
-//         } else {
-//           if (!checkObs(curY, curX, vert, hor, grid_vert, grid_hor)) {
-//             curX += 1;
-//           } else {
-//             return {'x' : curX, 'y': curY}
-//           }
-//         }
-//       }
-  
-//       return "Not enough vertical room for object";
-//     }
-//   }
-
-// export function findCoords(newItem, roomWidth, roomHeight, curItemList){
-
-//     if (!curItemList){
-//         return {'hor': 0, 'vert': 0};
-//     }
-
-//     else {
-//         let x = 0;
-//         let y = 0;
-//         console.log(newItem);
-//         console.log(curItemList);
-//         for (const item of curItemList) {
-//             while (y + newItem.verticalSize < roomHeight) {
-//                 if (item.horizontalPos + item.horizontalSize >= x) {
-//                     if (y >= item.verticalPos && y < item.verticalPos + item.verticalSize) {
-//                         if (x + newItem.horizontalSize > roomWidth) {
-//                             x = 0;
-//                             y += 1;
-//                         } else {
-//                             // newItem.horizontalPos = x;
-//                             // newItem.verticalPos = y;
-//                             // console.log(x)
-//                             // console.log(newItem);
-//                             console.log("inner");
-//                             return {'hor': x, 'vert': y};
-//                         }
-//                     }
-//                 }
-//                 else{
-//                     // newItem.horizontalPos = x;
-//                     // newItem.verticalPos = y;
-//                     // console.log(newItem);
-//                     console.log("outter");
-//                     return {'hor': x, 'vert': y};
-//                 }
-//             }
-//         }
-//         return {'hor': 0, 'vert': 0};
-//     }
-// }
-
-// export function findCoords1(vertSize, horSize, roomWidth, roomHeight, curItemList){
-//     console.log(`vericalSize: ${vertSize}, horSize: ${horSize}, roomWidth: ${roomWidth}, roomHeight: ${roomHeight}, curItemList: `);
-//     console.log(curItemList);
-
-//     if (!curItemList){
-//         return {'hor': 0, 'vert': 0};
-//     }
-
-//     else {
-//         let x = 0;
-//         let y = 0;
-
-//         for (const item of curItemList) {
-//             while (true) {
-//                 if (y + vertSize > roomHeight){
-//                     console.log(`y: ${y}, vertSize: ${vertSize}, roomHeight: ${roomHeight}`);
-//                     return false;
-//                 }
-//                 if (checkHorOverlap(x, item)) {
-//                     // console.log('Types:', typeof x, typeof horSize, typeof roomWidth);
-//                     console.log(`x + horSize = ${x + horSize}`);
-//                     console.log((x + horSize) > roomWidth);
-//                     if ((x + horSize) > roomWidth) {
-//                         x = 0;
-//                         y += 1;
-//                         console.log('entering if');
-//                         // console.log(`x: ${x}, horSize: ${horSize}, roomWidth: ${roomWidth}`);
-//                     } else {
-//                         x += 1;
-//                     }
-//                 }
-//                 else if (checkVertOverlap(y, item)){
-//                     console.log("Y");
-//                     // console.log(`y + horSize = ${x + horSize}`);
-//                     // console.log((x + horSize) > roomWidth);
-//                     y += 1
-//                 }
-//                 else{
-//                     break;
-//                 }
-//             }
-//         }
-//         return {'vert': y, 'hor': x};
-//     }
-// }
-
-// export function checkHorOverlap(hor, curItem){
-//     if (curItem.horizontalPos + curItem.horizontalSize >= hor) {
-//         return true;
-//     }
-//     // else if (vert >= curItem.verticalPos && vert < curItem.verticalPos + curItem.verticalSize) {
-//     //     return true;
-//     // }
-//     else{
-//         return false;
-//     }
-// }
-
-// export function checkVertOverlap(vert, curItem){
-//     if (vert >= curItem.verticalPos && vert < curItem.verticalPos + curItem.verticalSize) {
-//         return true;
-//     }
-//     else{
-//         return false;
-//     }
-// }
-
+/* ACTUAL FUNCTION BELOW */
 export function findCoords(vertSize, horSize, roomWidth, roomHeight, curItemList){
-    if (!curItemList || curItemList.length === 0) {
+    if (horSize > roomWidth || vertSize > roomHeight){
+        return { vert: null, hor: null };
+    }
+    
+    else if (!curItemList || curItemList.length === 0) {
         return { vert: 0, hor: 0 };
     }
 
+    const padding = 1/30;
     // Create a list of unique vertical positions sorted in ascending order
     const uniqueVertPositions = [...new Set(curItemList.map(item => item.verticalPos))].sort((a, b) => a - b);
 
@@ -167,18 +20,20 @@ export function findCoords(vertSize, horSize, roomWidth, roomHeight, curItemList
 
         // Find the object with the greatest horizontalPos + horizontalSize
         const maxRightItem = findGreatestRight(sameRowItems);
-        const proposedHor = maxRightItem.horizontalPos + maxRightItem.horizontalSize + 1/30;
-
-        // Check horizontal boundary
-        if (proposedHor + horSize <= roomWidth) {
-            return { vert: vertPos, hor: proposedHor };
-        }
-
-        // Check vertical boundary to break early
-        if (vertPos + vertSize + 1 > roomHeight) {
+        const curRowPropsedHor = maxRightItem.horizontalPos + maxRightItem.horizontalSize + padding;
+        
+        // Check vert for current row to break early
+        const curRowProposedVert = maxRightItem.verticalPos + padding;
+        if (curRowProposedVert + vertSize > roomHeight) {
             console.log("FALSE");
             return { vert: null, hor: null };
         }
+
+        // Check hor for current row
+        else if (curRowPropsedHor + horSize <= roomWidth) {
+            return { vert: vertPos, hor: curRowPropsedHor };
+        }
+
     }
 
     const maxBottomItem = curItemList.reduce((maxItem, currentItem) => {
@@ -187,9 +42,9 @@ export function findCoords(vertSize, horSize, roomWidth, roomHeight, curItemList
         return currY > maxY ? currentItem : maxItem;
     });
 
-    const proposedVert = maxBottomItem.verticalPos + maxBottomItem.verticalSize + 1/30;
-    if (proposedVert + vertSize <= roomHeight) {
-        return { vert: proposedVert, hor: 0 };
+    const newRowVert = maxBottomItem.verticalPos + maxBottomItem.verticalSize + padding;
+    if (newRowVert + vertSize <= roomHeight) {
+        return { vert: newRowVert, hor: 0 };
     }
 
     console.log("FALSE");
@@ -213,3 +68,165 @@ export function findLeftMost(curItemList){
       }, 0);
     return maxRightEdge;
 }
+  
+
+/**
+ * Array of test cases for the findCoords function
+ * Each test case contains input parameters and expected output
+ */
+const testCases = [
+    //1
+    {
+        input: [2, 2, 10, 10, []],
+        expected: { vert: 0, hor: 0 }
+    },
+    //2
+    {
+        input: [
+            2, 2, 10, 10, [
+                {
+                    verticalPos: 0,
+                    horizontalPos: 0,
+                    verticalSize: 2,
+                    horizontalSize: 2
+                }
+            ]
+        ],
+        expected: { vert: 0, hor: 2.033333333333333 }
+    },
+    //3
+    {
+        input: [
+            2, 2, 10, 10, [
+                {
+                    verticalPos: 0,
+                    horizontalPos: 0,
+                    verticalSize: 2,
+                    horizontalSize: 2
+                },
+                {
+                    verticalPos: 0,
+                    horizontalPos: 2.033333333333333,
+                    verticalSize: 2,
+                    horizontalSize: 2
+                }
+            ]
+        ],
+        expected: { vert: 0, hor: 4.066666666666666 }
+    },
+    //4
+    {
+        input: [
+            2, 2, 10, 10, [
+                {
+                    verticalPos: 0,
+                    horizontalPos: 0,
+                    verticalSize: 2,
+                    horizontalSize: 4
+                },
+                {
+                    verticalPos: 0,
+                    horizontalPos: 4.033333333333333,
+                    verticalSize: 2,
+                    horizontalSize: 4
+                }
+            ]
+        ],
+        expected: { vert: 2.033333333333333, hor: 0 }
+    },
+    //5
+    {
+        input: [
+            2, 2, 4, 4, [
+                {
+                    verticalPos: 0,
+                    horizontalPos: 0,
+                    verticalSize: 2,
+                    horizontalSize: 2
+                },
+                {
+                    verticalPos: 0,
+                    horizontalPos: 2.033333333333333,
+                    verticalSize: 2,
+                    horizontalSize: 2
+                },
+                {
+                    verticalPos: 2.033333333333333,
+                    horizontalPos: 0,
+                    verticalSize: 2,
+                    horizontalSize: 2
+                },
+                {
+                    verticalPos: 2.033333333333333,
+                    horizontalPos: 2.033333333333333,
+                    verticalSize: 2,
+                    horizontalSize: 2
+                }
+            ]
+        ],
+        expected: { vert: null, hor: null }
+    },
+    {
+        input: [12, 12, 10, 10, []],
+        expected: { vert: null, hor: null }
+    },
+    {
+        input: [
+            2, 3.5, 10, 10, [
+                {
+                    verticalPos: 0,
+                    horizontalPos: 0,
+                    verticalSize: 2.5,
+                    horizontalSize: 2.5
+                },
+                {
+                    verticalPos: 0,
+                    horizontalPos: 2.533333333333333,
+                    verticalSize: 2,
+                    horizontalSize: 2
+                }
+            ]
+        ],
+        expected: { vert: 0, hor: 4.566666666666666 }
+    },
+    {
+        input: [
+            2, 2.9, 9, 9, [
+                {
+                    verticalPos: 0,
+                    horizontalPos: 0,
+                    verticalSize: 1,
+                    horizontalSize: 1
+                },
+                {
+                    verticalPos: 0,
+                    horizontalPos: 1.033333333333333,
+                    verticalSize: 5,
+                    horizontalSize: 1
+                },
+                {
+                    verticalPos: 0,
+                    horizontalPos: 2.066666666666666,
+                    verticalSize: 4,
+                    horizontalSize: 4
+                }
+            ]
+        ],
+        expected: { vert: 0, hor: 6.1 }
+    }
+    // Add any additional test cases here
+];
+
+/**
+ * Run each test case and log results
+ * Compares actual output with expected output
+ */
+testCases.forEach((testCase, index) => {
+    const result = findCoords(...testCase.input);
+    console.log(`Test Case ${index + 1}:`);
+    console.log('Input:', testCase.input);
+    console.log('Expected:', testCase.expected);
+    console.log('Result:', result);
+    console.log('Pass:', JSON.stringify(result) === JSON.stringify(testCase.expected));
+    console.log('---');
+});

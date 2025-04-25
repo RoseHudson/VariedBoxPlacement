@@ -1,3 +1,5 @@
+/* NOT IN USE */
+
 export default function UnitSelection({area, options, selected, changeSelected}) {
   function handleUnitChange(event) {
       changeSelected(event.target.value);

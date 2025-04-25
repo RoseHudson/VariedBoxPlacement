@@ -1,5 +1,4 @@
-/* UNUSED */
-
+/* NOT IN USE */
 
 export default function Item(items, handleDelete){
     return (

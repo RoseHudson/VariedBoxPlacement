@@ -18,15 +18,6 @@ export default function ItemList({curList, setCurList, handleAddItem, roomWidth,
   const [horizontalSize, setHorizontalSize] = useState('');
 
   const handleAdd = () => {
-    // if (name && verticalSize && horizontalSize) {
-    //   const newItem = {
-    //     id: Date.now(),
-    //     name,
-    //     verticalSize: parseInt(verticalSize),
-    //     horizontalSize: parseInt(horizontalSize),
-    //     verticalPos: null,
-    //     horizontalPos: null,
-    //   };
     const foundCoords = findCoords(parseInt(verticalSize), parseInt(horizontalSize), roomWidth, roomHeight, curList);
     console.log(foundCoords);
     if (name && verticalSize && horizontalSize) {
@@ -38,15 +29,9 @@ export default function ItemList({curList, setCurList, handleAddItem, roomWidth,
         verticalPos: foundCoords.vert,
         horizontalPos: foundCoords.hor,
       };
-
-      console.log(newItem);
-      // console.log(curList);
-      // console.log(`newItem: ${newItem}`);
-      // console.log(`list: ${curList}`);
       
       handleAddItem(newItem); // Use handleAddItem to place the item in the room
 
-      // setCurList(prev => [...prev, newItem]);
       setName('');
       setVerticalSize('');
       setHorizontalSize('');

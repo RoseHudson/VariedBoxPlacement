@@ -1,16 +1,54 @@
-// my_x = 0
-// my_y = 0
-// while my_x + my_hor <= roomDimensions.x and my_y + my_vert <= roomDimensions.y:
-//   for item in list:
-//     if there is any overlap in range(my_x, my_x + my_hor) with anything in range(item.x + item.hor):
-//       if my_x + my_hor + item.x + item.hor + 1 < roomDimensions.x:
-//         my_x = 0
-//       else:
-//         my_x += item.x + item.hor + 1
-//     elif there is any overlap in range (my_y, my_y + my_vert) with anything in range(item.y + item.vert):
-//       if my_y + my_vert + item.y + item.vert + 1 < roomDimensions.y:
-//         my_y = 0
-//       else:
-//         my_y += item.y + item.vert + 1
-//     else:
-//       place item at my_x, my_y
+/* ACTUAL FUNCTION BELOW */
+export function findCoords(vertSize, horSize, roomWidth, roomHeight, curItemList){
+    if (!curItemList || curItemList.length === 0) {
+        return { vert: 0, hor: 0 };
+    }
+
+    // Create a list of unique vertical positions sorted in ascending order
+    const uniqueVertPositions = [...new Set(curItemList.map(item => item.verticalPos))].sort((a, b) => a - b);
+
+    for (let i = 0; i < uniqueVertPositions.length; i++) {
+        const vertPos = uniqueVertPositions[i];
+
+        // Isolate items with this verticalPos
+        const sameRowItems = curItemList.filter(item => item.verticalPos === vertPos);
+
+        // Find the object with the greatest horizontalPos + horizontalSize
+        const maxRightItem = findGreatestRight(sameRowItems);
+        const proposedHor = maxRightItem.horizontalPos + maxRightItem.horizontalSize + 1/30;
+
+        // Check horizontal boundary
+        if (proposedHor + horSize <= roomWidth) {
+            return { vert: vertPos, hor: proposedHor };
+        }
+
+        // Check vertical boundary to break early
+        if (vertPos + vertSize + 1 > roomHeight) {
+            console.log("FALSE");
+            return { vert: null, hor: null };
+        }
+    }
+
+    const maxBottomItem = curItemList.reduce((maxItem, currentItem) => {
+        const maxY = maxItem.verticalPos + maxItem.verticalSize;
+        const currY = currentItem.verticalPos + currentItem.verticalSize;
+        return currY > maxY ? currentItem : maxItem;
+    });
+
+    const proposedVert = maxBottomItem.verticalPos + maxBottomItem.verticalSize + 1/30;
+    if (proposedVert + vertSize <= roomHeight) {
+        return { vert: proposedVert, hor: 0 };
+    }
+
+    console.log("FALSE");
+    return { vert: null, hor: null };
+}
+
+function findGreatestRight(items) {
+    return items.reduce((maxItem, currentItem) => {
+        const maxRight = maxItem.horizontalPos + maxItem.horizontalSize;
+        const currentRight = currentItem.horizontalPos + currentItem.horizontalSize;
+        return currentRight > maxRight ? currentItem : maxItem;
+    });
+}
+

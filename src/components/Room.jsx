@@ -1,11 +1,9 @@
 import { Box, Typography } from '@mui/material';
 
-export default function Room ({roomDimensions, scale, curItemList, nextPosition}){
+export default function Room ({roomDimensions, scale, curItemList}){
     return (
         <Box
           sx={{
-            // width: roomDimensions.width * 30 * scale,  // Multiplied for scaling
-            // height: roomDimensions.length * 30 * scale, // Multiplied for scaling
             width: roomDimensions.width * scale,  // Multiplied for scaling
             height: roomDimensions.length * scale, // Multiplied for scaling
             border: '2px solid #000',
@@ -35,10 +33,6 @@ export default function Room ({roomDimensions, scale, curItemList, nextPosition}
                 position: 'absolute',
                 top: `${item.verticalPos * scale}px`,
                 left: `${item.horizontalPos * scale}px`,
-                // top: `${nextPosition.x}px`,
-                // left: `${nextPosition.y}px`,
-                // width: item.horizontalSize * 30 * scale, // Scaled width
-                // height: item.verticalSize * 30 * scale,   // Scaled height
                 width: item.horizontalSize * scale, // Scaled width
                 height: item.verticalSize * scale,   // Scaled height
                 border: '2px solid #000',
